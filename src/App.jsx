@@ -2,16 +2,41 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [name, setName] = useState('')
-  const [cvName, setCvName] = useState([])
-  const [email, setEmail] = useState('')
+  
+  // const [name, setName] = useState('')
+  // const [cvName, setCvName] = useState([])
+  // const [email, setEmail] = useState('')
+
+  const [pInfo, setPInfo] = useState({
+    name: "", email: ""
+  })
+  const [cvPInfo, setCvPInfo] = useState([])
+
+  let{name, email} = pInfo
+  // function handleClick(e){
+  //   e.preventDefault()
+  //   setCvName(name)
+  // }
+  // const handleChange = (e, name) => {
+  //   const value = e.target.value
+  //   setPInfo({...pInfo, [name]: value})
+  // }
+
+  function handleChange(e){
+    setPInfo({
+      ...pInfo, 
+      [e.target.name]: e.target.value
+    })
+  }
 
   function handleClick(e){
     e.preventDefault()
-    setCvName(name)
+    setCvPInfo([...cvPInfo, {name, email}])
+    console.log(pInfo);
+    setPInfo({name: '', email:''})
+    
   }
-
+  // console.log("all", cvPInfo);
   return (
     <>
       <div className="container-fluid">
@@ -31,14 +56,18 @@ function App() {
               <div className="form-group">
                 <label>Name</label>
                 <input type="text" className="form-control" placeholder="Enter email"
-                value = {name}
-                onChange={e => setName(e.target.value)}/>
+                onChange={handleChange}
+                value={pInfo.name}
+                name="name"
+                />
               </div>
               <div className="form-group">
                 <label>E-mail</label>
                 <input type="text" className="form-control" placeholder=""
-                value = {email}
-                onChange={e => setEmail(e.target.value)}/>
+                onChange={handleChange}
+                value={pInfo.email}
+                name = "email"
+                />
               </div>
               
               <button type="submit" className="btn btn-primary" onClick={handleClick}>Submit</button>
@@ -47,8 +76,19 @@ function App() {
 
           <div className="card col-lg-8">
             Name is
-          
-            <p>{cvName}</p>
+           
+            {cvPInfo.map(
+              (item, index)=>{
+                return(
+                  <>
+                  <h3 key={index}>{item.name}</h3>
+                <h3>{item.email}</h3>
+                  </>
+                
+                )
+              }
+            )}
+            
           </div>
           
         </div>
