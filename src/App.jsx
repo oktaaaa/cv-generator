@@ -15,12 +15,21 @@ function App() {
 
   let{name, email} = pInfo
 
+  // education
   const [eduInfo, setEduInfo] = useState({
     year: "", place:"", description:""
   })
-
   const [cvEduInfo, setCvEduInfo] = useState([])
   let{year, place, description} = eduInfo
+
+  // work experience
+
+  const [workInfo, setWorkInfo] = useState({
+    yearWork: "", company:"", descriptionWork:"", jobTitle:""
+  })
+
+  const [cvWorkInfo, setCvWorkInfo] = useState([])
+  let{yearWork, company, descriptionWork, jobTitle} = workInfo
   // function handleClick(e){
   //   e.preventDefault()
   //   setCvName(name)
@@ -43,6 +52,12 @@ function App() {
     })
   }
 
+  function handleChangeWork(e){
+    setWorkInfo({
+      ...workInfo, [e.target.name]: e.target.value
+    })
+  }
+
   function handleClick(e){
     e.preventDefault()
     setCvPInfo([...cvPInfo, {name, email}])
@@ -56,6 +71,13 @@ function App() {
     // console.log(eduInfo);
     setEduInfo({year: '', place: '', description:''})
   }
+
+  function handleClickWork(e){
+    e.preventDefault()
+    setCvWorkInfo([...cvWorkInfo, {yearWork, company, descriptionWork, jobTitle}])
+    setWorkInfo({yearWork: '', company: '', descriptionWork:'', jobTitle: ''})
+  }
+
   // console.log("all", cvPInfo);
   return (
     <>
@@ -69,7 +91,7 @@ function App() {
         </div>
 
         <div className="row mt-3">
-          <div className="card col-lg-4 px-3">
+          <div className="card col-lg-3 px-3">
             <h3>Section</h3>
             <h4>Personal Information</h4>
             <form >
@@ -136,28 +158,70 @@ function App() {
 
               <div className="form-group">
                 <label>Description</label>
-                <input type="text" className="form-control" placeholder=""
+                <textarea type="text" className="form-control" placeholder=""
                 onChange={handleChangeEdu}
                 value={eduInfo.description}
                 name = "description"
+                rows="3"
                 />
               </div>
               
               <button type="submit" className="btn btn-primary" onClick={handleClickEdu}>Add</button>
             </form>
+
+            <h4 className='mt-3'>Work Experience</h4>
+            <form >
+              <div className="form-group">
+                <label>Year</label>
+                <input type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.yearWork}
+                name="yearWork"
+                />
+              </div>
+              <div className="form-group">
+                <label>Company</label>
+                <input type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.company}
+                name = "company"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Job Title</label>
+                <input type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.jobTitle}
+                name = "jobTitle"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Description</label>
+                <textarea type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.descriptionWork}
+                name = "descriptionWork"
+                rows="3"
+                />
+              </div>
+              
+              <button type="submit" className="btn btn-primary" onClick={handleClickWork}>Add</button>
+            </form>
           </div>
 
           
 
-          <div className="card col-lg-8">
+          <div className="card col-lg-9">
             {cvPInfo.map(
               (item, index)=>{
                 return(
                   <>
-                  <div >
-                      <h3 key={index}>{item.name} </h3>
-                      <p>{item.email} email here</p>
-                      <p>-----------------------------</p>
+                  <div className='bg-primary'>
+                      <h2 className= "mt-3 mx-3 text-white text-center" key={index}>{item.name} </h2>
+                      <p className= "mt-3 mx-3 text-white text-center"><i className='bi bi-envelope'></i> {item.email}</p>
+                      
                   </div>
                   
                   </>
@@ -166,19 +230,47 @@ function App() {
               }
             )}
 
-          <h4>Education</h4>
+          <h3 className='mt-3 mx-3'>Education</h3>
 
           {cvEduInfo.map(
               (item, index)=>{
                 return(
                   <>
                   <div className='row'>
-                    <div className='col-lg-4'>
-                      <h3 key={index}>{item.year} </h3>
+                    <div className='col-lg-4 '>
+                      <h5 key={index} className='mx-3'>{item.year} </h5>
                       
                     </div>
                     <div className='col-lg-8'>
-                      <h3 key={index}>{item.description} </h3>
+                      <h5 key={index}>{item.place} </h5>
+                      <p>{item.description}</p>
+                      
+                    </div>
+                    
+                    
+                  </div>
+                  
+                  </>
+                
+                )
+              }
+          )}
+          <hr className='bg-dark'/>
+          <h3 className='mt-3 mx-3'>Work Experience</h3>
+
+          {cvWorkInfo.map(
+              (item, index)=>{
+                return(
+                  <>
+                  <div className='row'>
+                    <div className='col-lg-4'>
+                      <h5 className= "mx-3" key={index}>{item.yearWork} </h5>
+                      
+                    </div>
+                    <div className='col-lg-8'>
+                      <h5 className=''>{item.company} | {item.jobTitle}</h5>
+                     
+                      <p key={index}>{item.descriptionWork} </p>
                       
                     </div>
                   </div>
@@ -187,7 +279,7 @@ function App() {
                 
                 )
               }
-            )}
+          )}
 
 
             
