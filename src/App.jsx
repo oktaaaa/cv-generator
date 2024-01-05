@@ -39,9 +39,23 @@ function App() {
   //   setPInfo({...pInfo, [name]: value})
   // }
 
+  // additional section
+  const [additionalSection, setAdditionalSection] = useState({
+    sectionName: '', sectionYear: '', sectionTitle:'', sectionPlace: '', sectionDesc:''
+  })
+
+  const [cvAdditionalSection, setCvAdditionalSection] = useState([])
+
+  let {sectionName, sectionYear, sectionTitle, sectionPlace, sectionDesc} = additionalSection
+  const [checkedSection, setCheckedSection] = useState(false);
+
+  const onChangeCheckedSection = (e) => {
+    setCheckedSection(e.target.checked)
+  }
+
   function handleChange(e){
     setPInfo({
-      ...pInfo, 
+      ...pInfo,
       [e.target.name]: e.target.value
     })
   }
@@ -55,6 +69,12 @@ function App() {
   function handleChangeWork(e){
     setWorkInfo({
       ...workInfo, [e.target.name]: e.target.value
+    })
+  }
+
+  function handleChangeAdditionalSection(e){
+    setAdditionalSection({
+      ...additionalSection, [e.target.name]:e.target.value
     })
   }
 
@@ -76,6 +96,12 @@ function App() {
     e.preventDefault()
     setCvWorkInfo([...cvWorkInfo, {yearWork, company, descriptionWork, jobTitle}])
     setWorkInfo({yearWork: '', company: '', descriptionWork:'', jobTitle: ''})
+  }
+
+  function handleClickAdditionalSection(e){
+    e.preventDefault()
+    setCvAdditionalSection([...cvAdditionalSection, {sectionName, sectionTitle, sectionYear, sectionPlace, sectionDesc }])
+    setAdditionalSection({sectionName: '', sectionTitle: '', sectionYear: '', sectionPlace: '', sectionDesc: ''})
   }
 
   // console.log("all", cvPInfo);
@@ -209,7 +235,72 @@ function App() {
               
               <button type="submit" className="btn btn-primary" onClick={handleClickWork}>Add</button>
             </form>
+
+            <div className="form-check">
+              <input className="form-check-input" type="checkbox" checked={checkedSection} onChange={onChangeCheckedSection}/>
+              <label className="form-check-label">
+                Click if you want to add another section
+              </label>
+            </div>
+
+            <form >
+            {addSection && (
+              <>
+              <h4 className='mt-3'>Add Section</h4>
+              <div className="form-group">
+                <label>Section Name</label>
+                <input type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.yearWork}
+                name="yearWork"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Year</label>
+                <input type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.company}
+                name = "company"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Title</label>
+                <input type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.jobTitle}
+                name = "jobTitle"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Place</label>
+                <input type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.jobTitle}
+                name = "jobTitle"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Description</label>
+                <textarea type="text" className="form-control" placeholder=""
+                onChange={handleChangeWork}
+                value={workInfo.descriptionWork}
+                name = "descriptionWork"
+                rows="3"
+                />
+              </div>
+              <button type="submit" className="btn btn-primary" onClick={handleClickWork}>Add</button>
+              </>
+            )}
+             
+              
+        </form>
           </div>
+
+
 
           
 
