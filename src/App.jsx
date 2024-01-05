@@ -97,7 +97,7 @@ function App() {
             <form >
               <div className="form-group">
                 <label>Name</label>
-                <input type="text" className="form-control" placeholder="Enter email"
+                <input type="text" className="form-control" placeholder=""
                 onChange={handleChange}
                 value={pInfo.name}
                 name="name"
