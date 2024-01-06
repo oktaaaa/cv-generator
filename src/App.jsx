@@ -17,7 +17,7 @@ function App() {
 
   // education
   const [eduInfo, setEduInfo] = useState({
-    year: "", place:"", description:""
+    id:0, year: "", place:"", description:""
   })
   const [cvEduInfo, setCvEduInfo] = useState([])
   let{year, place, description} = eduInfo
@@ -78,6 +78,7 @@ function App() {
     })
   }
 
+  let nextId = 0
   function handleClick(e){
     e.preventDefault()
     setCvPInfo([...cvPInfo, {name, email}])
@@ -87,8 +88,8 @@ function App() {
 
   function handleClickEdu(e){
     e.preventDefault()
-    setCvEduInfo([...cvEduInfo, {year, place, description}])
-    // console.log(eduInfo);
+    setCvEduInfo([...cvEduInfo, {year, place, description, id: nextId++}])
+    console.log("the next id is: ", nextId);
     setEduInfo({year: '', place: '', description:''})
   }
 
@@ -102,6 +103,11 @@ function App() {
     e.preventDefault()
     setCvAdditionalSection([...cvAdditionalSection, {sectionName, sectionTitle, sectionYear, sectionPlace, sectionDesc }])
     setAdditionalSection({sectionName: '', sectionTitle: '', sectionYear: '', sectionPlace: '', sectionDesc: ''})
+  }
+
+  function onDelete(id) {
+    console.log(id);
+    // remove item
   }
 
   // console.log("all", cvPInfo);
@@ -244,55 +250,55 @@ function App() {
             </div>
 
             <form >
-            {addSection && (
+            {checkedSection && (
               <>
               <h4 className='mt-3'>Add Section</h4>
               <div className="form-group">
                 <label>Section Name</label>
                 <input type="text" className="form-control" placeholder=""
-                onChange={handleChangeWork}
-                value={workInfo.yearWork}
-                name="yearWork"
+                onChange={handleChangeAdditionalSection}
+                value={additionalSection.sectionName}
+                name="sectionName"
                 />
               </div>
 
               <div className="form-group">
                 <label>Year</label>
                 <input type="text" className="form-control" placeholder=""
-                onChange={handleChangeWork}
-                value={workInfo.company}
-                name = "company"
+                onChange={handleChangeAdditionalSection}
+                value={additionalSection.sectionYear}
+                name = "sectionYear"
                 />
               </div>
 
               <div className="form-group">
                 <label>Title</label>
                 <input type="text" className="form-control" placeholder=""
-                onChange={handleChangeWork}
-                value={workInfo.jobTitle}
-                name = "jobTitle"
+                onChange={handleChangeAdditionalSection}
+                value={additionalSection.sectionTitle}
+                name = "sectionTitle"
                 />
               </div>
 
               <div className="form-group">
                 <label>Place</label>
                 <input type="text" className="form-control" placeholder=""
-                onChange={handleChangeWork}
-                value={workInfo.jobTitle}
-                name = "jobTitle"
+                onChange={handleChangeAdditionalSection}
+                value={additionalSection.sectionPlace}
+                name = "sectionTitle"
                 />
               </div>
 
               <div className="form-group">
                 <label>Description</label>
                 <textarea type="text" className="form-control" placeholder=""
-                onChange={handleChangeWork}
-                value={workInfo.descriptionWork}
-                name = "descriptionWork"
+                onChange={handleChangeAdditionalSection}
+                value={additionalSection.sectionDesc}
+                name = "sectionDesc"
                 rows="3"
                 />
               </div>
-              <button type="submit" className="btn btn-primary" onClick={handleClickWork}>Add</button>
+              <button type="submit" className="btn btn-primary" onClick={handleClickAdditionalSection}>Add</button>
               </>
             )}
              
@@ -324,24 +330,22 @@ function App() {
           <h3 className='mt-3 mx-3'>Education</h3>
 
           {cvEduInfo.map(
-              (item, index)=>{
+              (item)=>{
                 return(
-                  <>
-                  <div className='row'>
+                  <div className='row' key={item.id}>
                     <div className='col-lg-4 '>
-                      <h5 key={index} className='mx-3'>{item.year} </h5>
+                      <h5 className='mx-3'  >{item.year} </h5>
                       
                     </div>
                     <div className='col-lg-8'>
-                      <h5 key={index}>{item.place} </h5>
+                      <h5>{item.place} </h5>
                       <p>{item.description}</p>
-                      
+                      <button className='bg-warning'> Edit </button>
+                      <button className='mx-3 bg-danger' onClick={() => onDelete(item.id)}> Delete </button>
                     </div>
                     
                     
                   </div>
-                  
-                  </>
                 
                 )
               }
@@ -372,6 +376,31 @@ function App() {
               }
           )}
 
+          {/* additional section */}
+          {cvAdditionalSection.map(
+              (item, index)=>{
+                return(
+                  <>
+                  <hr className='bg-dark'/>
+                  <h3 className='mt-3 mx-3'>{item.sectionName}</h3>
+                  <div className='row'>
+                    <div className='col-lg-4'>
+                      <h5 className= "mx-3" key={index}>{item.sectionYear} </h5>
+                      
+                    </div>
+                    <div className='col-lg-8'>
+                      <h5 className=''>{item.sectionPlace} | {item.sectionTitle}</h5>
+                     
+                      <p key={index}>{item.sectionDesc} </p>
+                      
+                    </div>
+                  </div>
+                  
+                  </>
+                
+                )
+              }
+          )}
 
             
           </div>
