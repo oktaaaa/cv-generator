@@ -132,7 +132,9 @@ function App() {
         </div>
 
         <div className="row mt-3">
+          
           <div className="card col-lg-3 px-3">
+         
             <h3>Section</h3>
             <h4>Personal Information</h4>
             <form >
@@ -310,9 +312,11 @@ function App() {
               <button type="submit" className="btn btn-primary" onClick={handleClickAdditionalSection}>Add</button>
               </>
             )}
-             
-              
-        </form>
+            </form>
+            <button className="btn btn-success mt-3" onClick={generatePDF}>
+              PDF
+          </button> 
+        
           </div>
 
 
@@ -417,16 +421,12 @@ function App() {
 
       
           </div>
-          <div className="row">
-        <button className="btn btn-success col-md-2 mx-3" onClick={generatePDF}>
-              PDF
-            </button>
-        </div>
           
           
+           
         </div>
         
-
+       
         
       </div>
     </>
