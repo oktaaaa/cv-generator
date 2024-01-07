@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './App.css'
+import { useReactToPrint } from 'react-to-print'
 
 function App() {
   
@@ -53,6 +54,14 @@ function App() {
     setCheckedSection(e.target.checked)
   }
 
+  // to print
+  const componentPDF = useRef()
+
+  const generatePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTitle: pInfo.name+ '_cv',
+    onAfterPrint: () => alert('Data saved in PDF')
+  });
   function handleChange(e){
     setPInfo({
       ...pInfo,
@@ -309,15 +318,19 @@ function App() {
 
 
           
+        <div>
+          
+        </div>
 
-          <div className="card col-lg-9">
+          <div className="card col-lg-9 col-md-9"  ref={componentPDF} style={{ width: '100%' }}>
+            
             {cvPInfo.map(
               (item, index)=>{
                 return(
                   <>
-                  <div className='bg-primary'>
-                      <h2 className= "mt-3 mx-3 text-white text-center" key={index}>{item.name} </h2>
-                      <p className= "mt-3 mx-3 text-white text-center"><i className='bi bi-envelope'></i> {item.email}</p>
+                  <div>
+                      <h2 className= "mt-3 mx-3 text-center" key={index}>{item.name} </h2>
+                      <p className= "mt-3 mx-3  text-center"><i className='bi bi-envelope'></i> {item.email}</p>
                       
                   </div>
                   
@@ -326,22 +339,22 @@ function App() {
                 )
               }
             )}
-
+          <hr className='bg-dark'/>
           <h3 className='mt-3 mx-3'>Education</h3>
 
           {cvEduInfo.map(
               (item)=>{
                 return(
                   <div className='row' key={item.id}>
-                    <div className='col-lg-4 '>
+                    <div className='col-lg-4 col-sm-4'>
                       <h5 className='mx-3'  >{item.year} </h5>
                       
                     </div>
-                    <div className='col-lg-8'>
+                    <div className='col-lg-8 col-sm-8'>
                       <h5>{item.place} </h5>
                       <p>{item.description}</p>
-                      <button className='bg-warning'> Edit </button>
-                      <button className='mx-3 bg-danger' onClick={() => onDelete(item.id)}> Delete </button>
+                      {/* <button className='bg-warning'> Edit </button>
+                      <button className='mx-3 bg-danger' onClick={() => onDelete(item.id)}> Delete </button> */}
                     </div>
                     
                     
@@ -358,11 +371,11 @@ function App() {
                 return(
                   <>
                   <div className='row'>
-                    <div className='col-lg-4'>
+                    <div className='col-lg-4 col-sm-4'>
                       <h5 className= "mx-3" key={index}>{item.yearWork} </h5>
                       
                     </div>
-                    <div className='col-lg-8'>
+                    <div className='col-lg-8 col-sm-8'>
                       <h5 className=''>{item.company} | {item.jobTitle}</h5>
                      
                       <p key={index}>{item.descriptionWork} </p>
@@ -391,7 +404,7 @@ function App() {
                     <div className='col-lg-8'>
                       <h5 className=''>{item.sectionPlace} | {item.sectionTitle}</h5>
                      
-                      <p key={index}>{item.sectionDesc} </p>
+                      <p key={index}>{item.sectionDesc} </p><br />
                       
                     </div>
                   </div>
@@ -402,12 +415,17 @@ function App() {
               }
           )}
 
-            
+      
           </div>
-
+          <div className="row">
+        <button className="btn btn-success col-md-2 mx-3" onClick={generatePDF}>
+              PDF
+            </button>
+        </div>
           
           
         </div>
+        
 
         
       </div>
