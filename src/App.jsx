@@ -211,7 +211,30 @@ function App() {
               
               <button type="submit" className="btn btn-primary" onClick={handleClickEdu}>Add</button>
             </form>
-
+            <div className="card">
+              
+              {cvEduInfo.map(
+              (item)=>{
+                return(
+                  <div className='row' key={item.id}>
+                    
+                    
+                    <h5 >{item.place} </h5>
+                    <button className='bg-warning mx-3'> Edit </button>
+                    <button className='bg-danger' onClick={() => setCvEduInfo(
+                cvEduInfo.filter(a =>
+                  a.id !== item.id
+                )
+              )}> Delete </button>
+                    
+                  </div>
+                
+                )
+              }
+          )}
+              
+            </div>
+            
             <h4 className='mt-3'>Work Experience</h4>
             <form >
               <div className="form-group">
